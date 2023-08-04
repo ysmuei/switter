@@ -7,33 +7,32 @@ import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
-const AppRouter = ({isLoggedIn, userObj}) => {
-   
-    return (
-      <Router>
-        {isLoggedIn && <Navigation />}
-        <Switch>
-          {isLoggedIn ? (
-            <>
-              <Route exact path="/">
-                <Home userObj={userObj}/>
-              </Route>
-              <Route exact path="/profile">
-                <Profile />
-              </Route>
-              <Redirect from="*" to="/" />
-            </>
-          ) : (
-            <>
-              <Route exact path="/">
-                <Auth />
-              </Route>
-              <Redirect from="*" to="/" />
-            </>
-          )}
-        </Switch>
-      </Router>
-    );
-}
+const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
+  return (
+    <Router>
+      {isLoggedIn && <Navigation userObj={userObj} />}
+      <Switch>
+        {isLoggedIn ? (
+          <>
+            <Route exact path="/">
+              <Home userObj={userObj} />
+            </Route>
+            <Route exact path="/profile">
+              <Profile userObj={userObj} refreshUser={refreshUser}/>
+            </Route>
+            <Redirect from="*" to="/" />
+          </>
+        ) : (
+          <>
+            <Route exact path="/">
+              <Auth />
+            </Route>
+            <Redirect from="*" to="/" />
+          </>
+        )}
+      </Switch>
+    </Router>
+  );
+};
 
 export default AppRouter;
